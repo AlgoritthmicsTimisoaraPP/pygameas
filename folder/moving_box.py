@@ -18,16 +18,16 @@ while run:
             run = False
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_LEFT]:
+    if keys[pygame.K_LEFT] and x > 0:
         x -= speed
-    if keys[pygame.K_RIGHT]:
+    if keys[pygame.K_RIGHT] and x < 760:
         x += speed
-    if keys[pygame.K_UP]:
+    if keys[pygame.K_UP] and y > 0:
         y -= speed
-    if keys[pygame.K_DOWN]:
+    if keys[pygame.K_DOWN] and y < 560:
         y += speed
 
-    # window.fill((0,0,0)) #redesenez backroundul in negru
+    window.fill((0,0,0)) #redesenez backroundul in negru
     pygame.draw.rect(window,(255,0,0),(x,y,width,height))
     pygame.display.update()
 pygame.quit()
