@@ -1,7 +1,6 @@
 
 from pygame import *
 
-
 #main player class—Characters
 class Character(sprite.Sprite): #in the parentheses it is indicated that the class inherits from the Sprite class
     #creating the constructor
@@ -18,14 +17,15 @@ class Character(sprite.Sprite): #in the parentheses it is indicated that the cla
        self.rect.y = y
    #method defining the sprite’s movement
     def update(self):
+
         keys = key.get_pressed()
-        if keys[K_LEFT]:
+        if keys[K_LEFT] and self.rect.x > 0:
            self.rect.x -= 5
-        if keys[K_RIGHT]:
+        if keys[K_RIGHT] and self.rect.x < 740:
            self.rect.x += 5
-        if keys[K_UP]:
+        if keys[K_UP] and self.rect.y > 0:
            self.rect.y -= 5
-        if keys[K_DOWN]:
+        if keys[K_DOWN] and self.rect.y < 540:
            self.rect.y += 5
 
 class Wall(sprite.Sprite): 
