@@ -18,13 +18,13 @@ while run:
             run = False
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_LEFT] and x > 0:
+    if keys[pygame.K_a] and x > 0:
         x -= speed
-    if keys[pygame.K_RIGHT] and x < 760:
+    if keys[pygame.K_d] and x < 760:
         x += speed
-    if keys[pygame.K_UP] and y > 0:
+    if keys[pygame.K_w] and y > 0:
         y -= speed
-    if keys[pygame.K_DOWN] and y < 560:
+    if keys[pygame.K_s] and y < 560:
         y += speed
 
     window.fill((0,0,0)) #redesenez backroundul in negru
