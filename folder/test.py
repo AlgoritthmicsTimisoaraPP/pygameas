@@ -23,6 +23,18 @@ class Character(sprite.Sprite): #in the parentheses it is indicated that the cla
        self.rect.y = y
    #method defining the sprite’s movement
     def update(self):
+<<<<<<< Updated upstream
+=======
+        keys = key.get_pressed()
+        if keys[K_LEFT]:
+           self.rect.x -= 5
+        if keys[K_RIGHT] :
+           self.rect.x += 5
+        if keys[K_UP]:
+           self.rect.y -= 5
+        if keys[K_DOWN]:
+           self.rect.y += 5
+>>>>>>> Stashed changes
 
         keys = key.get_pressed()
         if keys[K_LEFT] and self.rect.x > 0:
