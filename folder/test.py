@@ -1,6 +1,6 @@
 
 from pygame import *
-
+import random
 
 #main player class—Characters
 class Character(sprite.Sprite): #in the parentheses it is indicated that the class inherits from the Sprite class
@@ -14,6 +14,8 @@ class Character(sprite.Sprite): #in the parentheses it is indicated that the cla
        # each sprite should store the rect property—the rectangle into which it is inscribed
        self.rect = self.image.get_rect() #we get a rectangle from the image
        #we set its location
+       self.start_x = x
+       self.start_y = y
        self.rect.x = x
        self.rect.y = y
    #method defining the sprite’s movement
@@ -27,7 +29,9 @@ class Character(sprite.Sprite): #in the parentheses it is indicated that the cla
            self.rect.y -= 5
         if keys[K_DOWN]:
            self.rect.y += 5
-
+    def reset_position(self):
+        self.rect.x = self.start_x
+        self.rect.y = self.start_y
 class Wall(sprite.Sprite): 
     def __init__(self, image_path, x, y):
         sprite.Sprite.__init__(self) 
@@ -37,6 +41,22 @@ class Wall(sprite.Sprite):
         #we set its location
         self.rect.x = x
         self.rect.y = y
+
+
+
+
+def change_background():
+    backgrounds = [
+        'assets/backgrounds/city_1.png',
+        'assets/backgrounds/city_2.png',
+        'assets/backgrounds/city_3.png',
+    ]
+    selected_background = random.choice(backgrounds)
+    background_image = image.load(selected_background)
+    background_image = transform.scale(background_image, (800, 600))
+    return background_image
+
+
 
 init()
 screen = display.set_mode((800, 600))
@@ -51,9 +71,17 @@ sprite_group.add(character)
 sprite_group.draw(screen)
 
 
-wall1 = Wall('assets/backgrounds/cave.png',500,500)
-sprite_group.add(wall1)
-
+# wall1 = Wall('assets/backgrounds/cave.png',500,500)
+walls = [
+    Wall('assets/backgrounds/cave.png', 300, 0),
+    Wall('assets/backgrounds/cave.png', 300, 64),
+    Wall('assets/backgrounds/cave.png', 300, 128),
+    Wall('assets/backgrounds/cave.png', 300, 192),
+    Wall('assets/backgrounds/cave.png', 300, 256),
+    Wall('assets/backgrounds/cave.png', 300, 320)
+]
+sprite_group.add(walls)
+background_image = change_background()
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
@@ -61,13 +89,15 @@ while running:
         if e.type == QUIT:
             running = False
     character.update()
-    screen.fill((0,0,0)) #comment this and see what hapen
+    # screen.fill((0,0,0)) #comment this and see what hapen
+    screen.blit(background_image, (0, 0))
     sprite_group.draw(screen)
-
-    # fill the screen with a color to wipe away anything from last frame
-    # screen.fill("purple")
-    if sprite.collide_rect(character, wall1):
-        print("touch")
+    
+    for wall in walls:
+        if sprite.collide_rect(character, wall):
+            character.reset_position()
+            background_image = change_background()
+            screen.blit(background_image, (0, 0))
 
     # flip() the display to put your work on screen
     display.flip()
