@@ -1,9 +1,7 @@
 
 from pygame import *
-<<<<<<< HEAD
+
 import random
-=======
->>>>>>> 81baf24fd222cb5a280444af05b3441ea5de7372
 
 #main player class—Characters
 class Character(sprite.Sprite): #in the parentheses it is indicated that the class inherits from the Sprite class
