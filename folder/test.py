@@ -1,10 +1,6 @@
 
 from pygame import *
-<<<<<<< HEAD
 import random
-=======
->>>>>>> 81baf24fd222cb5a280444af05b3441ea5de7372
-
 #main player class—Characters
 class Character(sprite.Sprite): #in the parentheses it is indicated that the class inherits from the Sprite class
     #creating the constructor
@@ -67,12 +63,17 @@ screen = display.set_mode((800, 600))
 clock = time.Clock()
 running = True
 
+levels = list()
 
 character = Character('assets/level/hero.png',100,100)
 
-sprite_group = sprite.Group()
-sprite_group.add(character)
-sprite_group.draw(screen)
+for i in range(3):
+    levels.append(sprite.Group())
+
+
+for level in levels:
+    level.add(character)
+
 
 
 # wall1 = Wall('assets/backgrounds/cave.png',500,500)
@@ -84,8 +85,10 @@ walls = [
     Wall('assets/backgrounds/cave.png', 300, 256),
     Wall('assets/backgrounds/cave.png', 300, 320)
 ]
-sprite_group.add(walls)
+levels[0].add(walls)
+
 background_image = change_background()
+level_nr = 0
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
@@ -95,14 +98,15 @@ while running:
     character.update()
     # screen.fill((0,0,0)) #comment this and see what hapen
     screen.blit(background_image, (0, 0))
-    sprite_group.draw(screen)
+    levels[level_nr].draw(screen)
     
     for wall in walls:
         if sprite.collide_rect(character, wall):
             character.reset_position()
             background_image = change_background()
             screen.blit(background_image, (0, 0))
-
+    # if sprite.collide_rect(character, win): 
+        # level_nr += 1
     # flip() the display to put your work on screen
     display.flip()
 
