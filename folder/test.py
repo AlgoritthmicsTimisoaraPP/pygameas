@@ -1,10 +1,6 @@
 
 from pygame import *
-<<<<<<< HEAD
 import random
-=======
->>>>>>> 81baf24fd222cb5a280444af05b3441ea5de7372
-
 #main player class—Characters
 class Character(sprite.Sprite): #in the parentheses it is indicated that the class inherits from the Sprite class
     #creating the constructor
@@ -45,7 +41,11 @@ class Wall(sprite.Sprite):
         #we set its location
         self.rect.x = x
         self.rect.y = y
-
+class Win(Wall):
+    def __init__(self, image_path, x, y):
+        super().__init__(image_path, x, y)
+    def print_win():
+        print("You win for now...")
 
 
 
@@ -60,6 +60,11 @@ def change_background():
     background_image = transform.scale(background_image, (800, 600))
     return background_image
 
+def change_background_win():
+    selected_background = "assets/backgrounds/winner_1.jpg"
+    background_image = image.load(selected_background)
+    background_image = transform.scale(background_image, (800, 600))
+    return background_image
 
 
 init()
@@ -67,16 +72,21 @@ screen = display.set_mode((800, 600))
 clock = time.Clock()
 running = True
 
+levels = list()
 
-character = Character('assets/level/hero.png',100,100)
+characters = sprite.Group()
+character =Character('assets/level/hero.png',100,100)
+characters.add(character)
+win = Win("assets/level/trophy-1.png",400,400)
+characters.add(win)
 
-sprite_group = sprite.Group()
-sprite_group.add(character)
-sprite_group.draw(screen)
+for i in range(3):
+    levels.append(sprite.Group())
+
 
 
 # wall1 = Wall('assets/backgrounds/cave.png',500,500)
-walls = [
+walls1 = [
     Wall('assets/backgrounds/cave.png', 300, 0),
     Wall('assets/backgrounds/cave.png', 300, 64),
     Wall('assets/backgrounds/cave.png', 300, 128),
@@ -84,8 +94,33 @@ walls = [
     Wall('assets/backgrounds/cave.png', 300, 256),
     Wall('assets/backgrounds/cave.png', 300, 320)
 ]
-sprite_group.add(walls)
+levels[0].add(walls1)
+
+
+walls2 = list()
+for i in range(5):
+    walls2.append( Wall('assets/backgrounds/cave.png', 64+i*64, 320))
+    walls2.append( Wall('assets/backgrounds/cave.png', 64+i*64, 320-i*64))
+
+walls3 = list()
+for i in range(5):
+    walls2.append( Wall('assets/backgrounds/cave.png', 64+i*2*64, 320))
+    walls2.append( Wall('assets/backgrounds/cave.png', 320-i*64,384))
+
+
+
+
+
+
+levels[1].add(walls2)
+levels[2].add(walls3)
+
+
+
+
+
 background_image = change_background()
+level_nr = 0
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
@@ -93,20 +128,24 @@ while running:
         if e.type == QUIT:
             running = False
     character.update()
-    # screen.fill((0,0,0)) #comment this and see what hapen
+    screen.fill((0,0,0)) #comment this and see what hapen
     screen.blit(background_image, (0, 0))
-    sprite_group.draw(screen)
+    characters.draw(screen)
+    levels[level_nr].draw(screen)
     
-    for wall in walls:
+    for wall in levels[level_nr]:
         if sprite.collide_rect(character, wall):
             character.reset_position()
             background_image = change_background()
             screen.blit(background_image, (0, 0))
-
+    if sprite.collide_rect(character, win):
+        if level_nr < 2: 
+            level_nr += 1
+        else:
+            background_image = change_background_win()
+            screen.blit(background_image, (0, 0))
+            characters.remove(win)
+        character.reset_position()
     # flip() the display to put your work on screen
     display.flip()
-
-    # limits FPS to 60
-    # dt is delta time in seconds since last frame, used for framerate-
-    # independent physics.
     dt = clock.tick(60) / 1000
