@@ -41,11 +41,34 @@ class Wall(sprite.Sprite):
         #we set its location
         self.rect.x = x
         self.rect.y = y
+
+
 class Win(Wall):
     def __init__(self, image_path, x, y):
         super().__init__(image_path, x, y)
     def print_win():
         print("You win for now...")
+
+class Enemy(Wall):
+    def __init__(self, image_path, x, y):
+        super().__init__(image_path, x, y)
+    def move(self):
+        rx = random.randint(0, 25)
+        ry = random.randint(0, 25)
+        dx = random.randint(-1, 1)
+        dy = random.randint(-1, 1)
+        self.rect.x = (rx * dx) + self.rect.x
+        self.rect.y = (ry * dy) + self.rect.y
+
+        if (self.rect.x >= 740):
+            self.rect.x -= 30
+        elif (self.rect.x <= 0):
+            self.rect.x += 30
+        elif (self.rect.y >= 540):
+            self.rect.y -= 30
+        elif (self.rect.y <= 0):
+            self.rect.y += 30
+        
 
 
 
@@ -65,6 +88,11 @@ def change_background_win():
     background_image = image.load(selected_background)
     background_image = transform.scale(background_image, (800, 600))
     return background_image
+def change_background_lose():
+    selected_background = "assets/level/NOOB.png"
+    background_image = image.load(selected_background)
+    background_image = transform.scale(background_image, (800, 600))
+    return background_image
 
 
 init()
@@ -73,9 +101,10 @@ clock = time.Clock()
 running = True
 
 levels = list()
+enemies= list()
 
 characters = sprite.Group()
-character =Character('assets/level/hero.png',100,100)
+character = Character('assets/level/hero.png',100,100)
 characters.add(character)
 win = Win("assets/level/trophy-1.png",400,400)
 characters.add(win)
@@ -107,17 +136,29 @@ for i in range(5):
     walls2.append( Wall('assets/backgrounds/cave.png', 64+i*2*64, 320))
     walls2.append( Wall('assets/backgrounds/cave.png', 320-i*64,384))
 
-
-
-
-
+enemy = Enemy("assets/level/enemy.png",600,600)
+enemy1 = Enemy("assets/level/enemy.png",600,600)
+enemy2 = Enemy("assets/level/enemy.png",200,200)
+enemy3 = Enemy("assets/level/enemy.png",300,200)
+enemy4 = Enemy("assets/level/enemy.png",400,500)
 
 levels[1].add(walls2)
 levels[2].add(walls3)
 
-
-
-
+levels[0].add(enemy)
+levels[1].add(enemy)
+levels[2].add(enemy)
+levels[2].add(enemy1)
+levels[2].add(enemy2)
+levels[2].add(enemy3)
+levels[2].add(enemy4)
+enemies.append(enemy)
+enemies.append(enemy)
+enemies.append(enemy)
+enemies.append(enemy1)
+enemies.append(enemy2)
+enemies.append(enemy3)
+enemies.append(enemy4)
 
 background_image = change_background()
 level_nr = 0
@@ -138,6 +179,13 @@ while running:
             character.reset_position()
             background_image = change_background()
             screen.blit(background_image, (0, 0))
+    
+    for e in levels[level_nr]:
+        if isinstance(e, Enemy):
+            e.move()
+            if sprite.collide_rect(character, e):
+                change_background_lose()
+
     if sprite.collide_rect(character, win):
         if level_nr < 2: 
             level_nr += 1
