@@ -1,33 +1,39 @@
-import pygame
-pygame.init()
+from random import randint
+from pygame import *
 
-window = pygame.display.set_mode((800,600))
-pygame.display.set_caption("Box walking")
-x = 50
-y = 50
-width = 40
-height = 40
-speed = 5
-run = True
-while run:
-    pygame.time.delay(10)
-    #un fel de sleep dar mai precit  (acest unitati sunt in milisecunde)
-    #1000 = 1s , 100 = 0.1 (face 10 verificari pe secunda, un fel de frames )
-    for e in pygame.event.get():
-        if e.type == pygame.QUIT:
-            run = False
-    keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_a] and x > 0:
-        x -= speed
-    if keys[pygame.K_d] and x < 760:
-        x += speed
-    if keys[pygame.K_w] and y > 0:
-        y -= speed
-    if keys[pygame.K_s] and y < 560:
-        y += speed
 
-    window.fill((0,0,0)) #redesenez backroundul in negru
-    pygame.draw.rect(window,(255,0,0),(x,y,width,height))
-    pygame.display.update()
-pygame.quit()
+display.set_caption("Bogdan invaders")
+background = image.load("assets/backgrounds/nightlight.png")
+
+screen = display.set_mode((800, 600))
+clock = time.Clock()
+running = True
+
+class Enemy(sprite.Sprite):
+    def __init__(self, image_path, x, y):
+       sprite.Sprite.__init__(self) 
+       self.image = image.load(image_path)
+       self.image = transform.scale(self.image, (50,50)) 
+       self.rect = self.image.get_rect()
+       self.start_x = x
+       self.start_y = y
+       self.rect.x = x
+       self.rect.y = y
+   
+    def update(self):
+        keys = key.get_pressed()
+        if keys[K_LEFT] and self.rect.x > 0:
+           self.rect.x -= 5
+        if keys[K_RIGHT] and self.rect.x < 740:
+           self.rect.x += 5
+enemy = Enemy("assets/heroes/spaceship/rocket_2.png",100,100)
+while running:
+    screen.blit(background, (0, 0))
+    enemy.draw(screen)
+    for e in event.get():
+        if e.type == QUIT:
+            running = False
+    display.update()
+    display.flip()
+    dt = clock.tick(60) / 1000

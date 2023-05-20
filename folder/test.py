@@ -44,7 +44,7 @@ class Wall(sprite.Sprite):
 class Win(Wall):
     def __init__(self, image_path, x, y):
         super().__init__(image_path, x, y)
-    def print_win():
+    def mata():
         print("You win for now...")
 
 
@@ -80,6 +80,10 @@ characters.add(character)
 win = Win("assets/level/trophy-1.png",400,400)
 characters.add(win)
 
+
+
+
+
 for i in range(3):
     levels.append(sprite.Group())
 
@@ -92,15 +96,37 @@ walls1 = [
     Wall('assets/backgrounds/cave.png', 300, 128),
     Wall('assets/backgrounds/cave.png', 300, 192),
     Wall('assets/backgrounds/cave.png', 300, 256),
-    Wall('assets/backgrounds/cave.png', 300, 320)
+    Wall('assets/backgrounds/cave.png', 300, 320),
+    Wall('assets/backgrounds/cave.png', 300, 384)
 ]
 levels[0].add(walls1)
 
 
 walls2 = list()
-for i in range(5):
-    walls2.append( Wall('assets/backgrounds/cave.png', 64+i*64, 320))
-    walls2.append( Wall('assets/backgrounds/cave.png', 64+i*64, 320-i*64))
+
+walls2 = [
+    Wall('assets/backgrounds/cave.png', 300, 64),
+    Wall('assets/backgrounds/cave.png', 300, 128),
+    Wall('assets/backgrounds/cave.png', 300, 192),
+    Wall('assets/backgrounds/cave.png', 300, 256),
+    Wall('assets/backgrounds/cave.png', 300, 320),
+    Wall('assets/backgrounds/cave.png', 300, 384),
+    Wall('assets/backgrounds/cave.png', 300, 64),
+    Wall('assets/backgrounds/cave.png', 364, 128),
+    Wall('assets/backgrounds/cave.png', 428, 128),
+    Wall('assets/backgrounds/cave.png', 472, 128),
+    Wall('assets/backgrounds/cave.png', 536, 128),
+    Wall('assets/backgrounds/cave.png', 600, 128),
+    Wall('assets/backgrounds/cave.png', 664, 128),
+    Wall('assets/backgrounds/cave.png', 600, 320),
+    Wall('assets/backgrounds/cave.png', 664, 320),
+    Wall('assets/backgrounds/cave.png', 728, 320),
+]
+
+Wall1 = Wall('assets/backgrounds/cave.png', 0, 325)
+characters.add(Wall1)
+
+levels[1].add(walls2)
 
 walls3 = list()
 for i in range(5):
