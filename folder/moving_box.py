@@ -7,7 +7,7 @@ x = 50
 y = 50
 width = 40
 height = 40
-speed = 5
+speed = 10
 run = True
 while run:
     pygame.time.delay(10)

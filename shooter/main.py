@@ -9,7 +9,7 @@ init()
 screen = display.set_mode((800, 600))
 clock = time.Clock()
 running = True
-ship = Character("C:\\Users\\elev5\\Documents\\GitHub\\pygameas\\assets\\heroes\\UFO\\ufo_1.png",300,300)
+ship = Character("assets\Images\Bogdan head 3.jpg",500,300)
 
 
 backgrounds = [
