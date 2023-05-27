@@ -30,10 +30,11 @@ while running:
     for e in event.get():
         if e.type == QUIT:
             running = False
-    ship.update()
+    
     # screen.fill((0,0,0)) #comment this and see what hapen
     # screen.blit(background_image, (0, 0))
     screen.blit(background_image, (0, 0))
+    ship.update(screen)
     entitys.draw(screen)
     display.flip()
     display.update()

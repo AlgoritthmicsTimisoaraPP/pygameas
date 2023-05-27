@@ -23,7 +23,7 @@ class Character(sprite.Sprite): #in the parentheses it is indicated that the cla
        self.bullets.add(Bullet(self.rect.x,self.rect.y))
 
    #method defining the sprite’s movement
-    def update(self):
+    def update(self,screen):
         keys = key.get_pressed()
         if keys[K_LEFT] and self.rect.x > 0:
            self.rect.x -= 5
@@ -32,6 +32,7 @@ class Character(sprite.Sprite): #in the parentheses it is indicated that the cla
         if keys[K_SPACE]:
            self.shoot()
         self.bullets.update()
+        self.bullets.draw(screen)
         for bullet in self.bullets:
            if bullet.getY() < 0:
               bullet.kill()
