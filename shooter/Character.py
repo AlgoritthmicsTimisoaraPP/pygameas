@@ -33,10 +33,6 @@ class Character(sprite.Sprite): #in the parentheses it is indicated that the cla
            self.shoot()
         self.bullets.update()
         for bullet in self.bullets:
-           if bullet.getY < 0:
+           if bullet.getY() < 0:
               bullet.kill()
-
-    def reset_position(self):
-        self.rect.x = self.start_x
-        self.rect.y = self.start_y
     
