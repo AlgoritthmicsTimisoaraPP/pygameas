@@ -14,7 +14,9 @@ class Bullet(sprite.Sprite): #in the parentheses it is indicated that the class 
        #we set its location
        self.rect.x = x
        self.rect.y = y
-   #method defining the sprite’s movement
+    def getY(self):
+        return self.rect.y
+       #method defining the sprite’s movement
     def update(self):
         self.rect.y += 1
 
